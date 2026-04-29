@@ -30,21 +30,8 @@ https://[domain-cua-ban.com]/#id=c9g3ohh5za0v9yfwgnh8j/200000011.jpg&rlkey=7rsrn
 - `rlkey`: Tham số bảo mật (bắt buộc).
 - `st`: Session token (nếu có trong link gốc, giúp đảm bảo quyền truy cập).
 
-## Hướng dẫn Deploy lên Vercel
 
-Mã nguồn hoàn toàn là Static HTML/CSS/JS thuần, không cần build (No Framework). Bạn có thể yêu cầu team Outsource đẩy lên Vercel cực kỳ đơn giản:
-
-1. **Kết nối Github với Vercel**: 
-   - Đăng nhập vào [Vercel](https://vercel.com).
-   - Chọn "Add New Project" -> Import repository này.
-2. **Cấu hình Framework Preset**: 
-   - Vercel sẽ tự nhận dạng là `Other` (Static HTML). Không cần sửa gì thêm.
-3. **Build Command & Output Directory**:
-   - Cứ để trống (Mặc định). Vercel sẽ lấy thẳng thư mục gốc chứa `index.html` làm website.
-4. **Custom Domain / Subdomain**:
-   - Vào mục **Settings -> Domains** của Project trên Vercel để thêm Subdomain mong muốn (ví dụ: `yfest.viettel.vn`).
-   - Trỏ bản ghi CNAME hoặc A record từ trang quản lý Tên miền theo hướng dẫn của Vercel.
-
+Mã nguồn hoàn toàn là Static HTML/CSS/JS thuần. 
 ## Cấu trúc thư mục
 
 ```text
@@ -54,7 +41,3 @@ Mã nguồn hoàn toàn là Static HTML/CSS/JS thuần, không cần build (No F
 ├── README.md           # Hướng dẫn sử dụng
 └── .gitignore          # Cấu hình bỏ qua file rác
 ```
-
-## Lưu ý cho Developer
-- **KHÔNG** xóa thuộc tính `crossorigin="anonymous"` trong thẻ `<img id="dynamic-mosaic">`. Đây là key quan trọng để `canvas.toBlob()` hoạt động được với ảnh từ domain của bên thứ ba (Dropbox).
-- **Kiểm thử trên di động**: Chỉ có trên di động (cụ thể là iOS/Android thật) thì hàm `navigator.share` mới hoạt động hiển thị "Save Image". Trên PC, tính năng tải ảnh sẽ tự động sử dụng Fallback (tải file xuống thư mục Downloads).
