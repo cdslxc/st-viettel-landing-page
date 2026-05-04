@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,7 +12,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -39,8 +41,12 @@
 
         .header-svg {
             width: 100%;
-            height: auto;
+            max-width: 500px;
+            height: clamp(60px, 12vh, 100px);
+            object-fit: cover;
+            object-position: top center;
             display: block;
+            margin: 0 auto;
         }
 
         /* --- Image Area --- */
@@ -64,8 +70,10 @@
             display: block;
             width: auto;
             height: auto;
-            max-width:  calc(100% - clamp(32px, 8vw, 96px));   /* padding left+right */
-            max-height: calc(100% - clamp(16px, 4vh, 48px));   /* padding top+bottom  */
+            max-width: calc(100% - clamp(32px, 8vw, 96px));
+            /* padding left+right */
+            max-height: calc(100% - clamp(16px, 4vh, 48px));
+            /* padding top+bottom  */
 
             border-radius: clamp(12px, 4vw, 24px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
@@ -118,21 +126,22 @@
         }
     </style>
 </head>
+
 <body>
     <div class="fullscreen-container">
 
         <header class="header-logos">
-            <img src="validated_svg.svg" alt="Header Logos" class="header-svg">
+            <img src="Website.png" alt="Header Logos" class="header-svg">
         </header>
 
         <main class="main-content">
-            <img id="dynamic-mosaic" class="mosaic-image" src="g14ZDAfw.jpeg" alt="Mosaic Portrait" crossorigin="anonymous">
+            <img id="dynamic-mosaic" class="mosaic-image" src="g14ZDAfw.jpeg" alt="Mosaic Portrait">
         </main>
 
         <footer class="footer-action">
             <button class="download-btn" id="download-btn">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                 </svg>
                 Download / Lưu ảnh
             </button>
@@ -148,15 +157,15 @@
          */
         function fitImage() {
             const main = document.querySelector('.main-content');
-            const img  = document.getElementById('dynamic-mosaic');
+            const img = document.getElementById('dynamic-mosaic');
             if (!main || !img) return;
 
             const availH = main.clientHeight - 20; // 10px padding top+bottom
-            const availW = main.clientWidth  - 40; // 20px padding left+right
+            const availW = main.clientWidth - 40; // 20px padding left+right
 
             // Only constrain; never stretch beyond natural size
             img.style.maxHeight = availH + 'px';
-            img.style.maxWidth  = availW + 'px';
+            img.style.maxWidth = availW + 'px';
         }
 
         const img = document.getElementById('dynamic-mosaic');
@@ -172,7 +181,7 @@
         async function downloadImage() {
             const btn = document.getElementById('download-btn');
             const imgEl = document.getElementById('dynamic-mosaic');
-            
+
             if (!imgEl || !imgEl.src) return;
 
             try {
@@ -212,7 +221,7 @@
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+                setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
 
             } catch (e) {
                 console.error('Fetch/Share failed:', e);
@@ -239,19 +248,19 @@
             if (!hash) return;
 
             const params = new URLSearchParams(hash);
-            const id     = params.get('id');
-            const rlkey  = params.get('rlkey');
-            const st     = params.get('st');
+            const id = params.get('id');
+            const rlkey = params.get('rlkey');
+            const st = params.get('st');
 
             if (id && rlkey) {
                 const isScl = id.includes('/');
-                
+
                 // Use dl.dropboxusercontent.com directly for the img src to bypass redirect/CORS blocking on mobile
                 const rawBaseUrl = isScl ? `https://dl.dropboxusercontent.com/scl/fi/${id}` : `https://dl.dropboxusercontent.com/s/${id}`;
                 // Use www.dropbox.com for the fallback download link
-                const dlBaseUrl  = isScl ? `https://www.dropbox.com/scl/fi/${id}` : `https://www.dropbox.com/s/${id}`;
-                
-                let rawUrl      = `${rawBaseUrl}?rlkey=${rlkey}`;
+                const dlBaseUrl = isScl ? `https://www.dropbox.com/scl/fi/${id}` : `https://www.dropbox.com/s/${id}`;
+
+                let rawUrl = `${rawBaseUrl}?rlkey=${rlkey}`;
                 let downloadUrl = `${dlBaseUrl}?rlkey=${rlkey}&dl=1`;
 
                 if (st) {
@@ -261,8 +270,9 @@
 
                 const imgEl = document.getElementById('dynamic-mosaic');
                 if (imgEl) {
+                    imgEl.crossOrigin = 'anonymous';
                     imgEl.onload = fitImage;
-                    imgEl.src    = rawUrl;
+                    imgEl.src = rawUrl;
                 }
 
                 // Store download URL on button for downloadImage() to use
@@ -275,4 +285,5 @@
         window.addEventListener('hashchange', updateImageFromHash);
     </script>
 </body>
+
 </html>
